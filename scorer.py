@@ -1,14 +1,29 @@
-#!/usr/bin/env python3
-
+from sys import version_info
 import requests
 from bs4 import BeautifulSoup
-from gi.repository import Notify
+if version_info.major is 2:
+    import pynotify
+    notifyModule = "pynotify"
+if version_info.major is 3:
+    try:
+        from gi.Repository import Notify
+        notifyModule = "Notify"
+    except ImportError:
+        import notify2
+        notifyModule = "notify2"
 from time import sleep
 
 
 def sendmessage(title, message):
-    Notify.init("Scorer")
-    Notify.Notification.new(title, message, "dialog-information").show()
+    if notifyModule is "pynotify":
+        pynotify.init("Scorer")
+        pynotify.Notification(title, message, "dialog-information").show()
+    elif notifyModule is "Notify":
+        Notify.init("Scorer")
+        Notify.Notification.new(title, message, "dialog-information").show()
+    else:
+        notify2.init("Scorer")
+        notify2.Notification(title, message, "dialog-information").show()
 
 
 url, match, score, interrupted = "http://static.cricinfo.com/rss/livescores.xml", 0, "", False
