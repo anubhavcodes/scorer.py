@@ -17,9 +17,10 @@ print("Fetching matches..")
 while True:
     try:
         r = requests.get(url)
-        while r.status_code is not 200:
+        while r.status_code != 200:
             sleep(2)
             r = requests.get(url)
+
         data = BeautifulSoup(r.text).find_all("description")
         if not match:
             print("Matches available:")
@@ -27,10 +28,12 @@ while True:
                 print(counter, game.text)
             match = int(input("Enter your choice: "))
             interrupted = False
+
         newscore = data[match].text
         if newscore != score:
             score = newscore
             sendmessage("Score", score)
+
         sleep(15)
 
     except KeyboardInterrupt:
