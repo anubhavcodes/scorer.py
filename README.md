@@ -8,6 +8,7 @@ A simple python script to fetch cricket scores and send notifications.
 * Shows notification only if there's a change in the score (run or wicket)
 
 ## Requirements ##
+* Install python dependencies using `pip install -r requirements.txt`
 * libnotify, BeautifulSoup
 * Internet connection
 
