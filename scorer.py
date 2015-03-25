@@ -42,6 +42,12 @@ while True:
                 print(counter, game.text)
                 counter += 1
             match = int(input("Enter your choice: "))
+            
+            while True:
+                if match in range(1, counter):
+                    break
+                match = int(input("Invalid Choice. Enter your choice: "))
+                
             interrupted=False
         newscore = data[match].text
         logging.info("Score found is {}".format(newscore))
