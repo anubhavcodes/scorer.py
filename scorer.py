@@ -70,5 +70,5 @@ while True:
             print("Bye bye")
             break
         else:
-            print("Press Ctrl+C again to quit")
+            print("Press Ctrl+D again or invalid Choice for Matches to quit")
             match, interrupted = 0, True
