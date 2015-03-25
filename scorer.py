@@ -7,45 +7,36 @@ from time import sleep
 
 
 def sendmessage(title, message):
-  Notify.init("Scorer")
-  scorer = Notify.Notification.new(title, message, "dialog-information")
-  scorer.show()
-  return
+    Notify.init("Scorer")
+    Notify.Notification.new(title, message, "dialog-information").show()
 
 
-url = "http://static.cricinfo.com/rss/livescores.xml"
-match = 0
-score = ""
-interrupted=False
+url, match, score, interrupted = "http://static.cricinfo.com/rss/livescores.xml", 0, "", False
 
 print("Fetching matches..")
 while True:
-  try:
-    r = requests.get(url)
-    while r.status_code is not 200:
-      sleep(2)
-      r = requests.get(url)
-    soup = BeautifulSoup(r.text)
-    data = soup.find_all("description")
-    if match == 0:
-      print("Matches available:")
-      counter = 1
-      for game in data[1:]:
-        print(counter, game.text)
-        counter += 1
-      match = int(input("Enter your choice: "))
-      interrupted=False
-    newscore = data[match].text
-    if newscore != score:
-      score = newscore
-      sendmessage("Score", score)
-    sleep(15)
+    try:
+        r = requests.get(url)
+        while r.status_code is not 200:
+            sleep(2)
+            r = requests.get(url)
+        data = BeautifulSoup(r.text).find_all("description")
+        if not match:
+            print("Matches available:")
+            for counter, game in enumerate(data[1:], 1):
+                print(counter, game.text)
+            match = int(input("Enter your choice: "))
+            interrupted = False
+        newscore = data[match].text
+        if newscore != score:
+            score = newscore
+            sendmessage("Score", score)
+        sleep(15)
 
-  except KeyboardInterrupt:
-    if interrupted:
-      print("Bye bye")
-      break
-    else:
-      print("Press Ctrl+C again to quit")
-      match = 0
-      interrupted=True
+    except KeyboardInterrupt:
+        if interrupted:
+            print("Bye bye")
+            break
+        else:
+            print("Press Ctrl+C again to quit")
+            match, interrupted = 0, True
