@@ -6,6 +6,7 @@ A simple python script to fetch cricket scores and send notifications.
 * Change choice by Ctrl+C
 * Quit by Ctrl+C twice
 * Shows notification only if there's a change in the score (run or wicket)
+* Should work with python2 or python3
 
 ## Requirements ##
 * Install python dependencies using `pip install -r requirements.txt`
