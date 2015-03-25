@@ -12,6 +12,9 @@ A simple python script to fetch cricket scores and send notifications.
 * libnotify, BeautifulSoup
 * Internet connection
 
+## Usage ##
+python scorer.py
+
 ## Credits ##
 * [CricInfo](http://www.espncricinfo.com/) for providing score
 * [Anubhav Yadav](http://www.quora.com/What-are-some-cool-Python-tricks/answer/Anubhav-Yadav-5) for initial code and idea
