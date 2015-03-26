@@ -16,11 +16,17 @@ url, match, score, interrupted = "http://static.cricinfo.com/rss/livescores.xml"
 print("Fetching matches..")
 while True:
     try:
-        r = requests.get(url)
-        while r.status_code != 200:
-            sleep(2)
+        # Sleep for two seconds and keep on trying to get the url, if failed with `HTTPError`
+        while True:
             r = requests.get(url)
+            try:
+                r.raise_for_status()
+                break
+            except requests.exceptions.HTTPError as err:
+                print("Request failed with", err)
+                sleep(2)
 
+        # Fetch all the match information from cricinfo
         data = BeautifulSoup(r.text).find_all("description")
         if not match:
             print("Matches available:")
@@ -34,6 +40,7 @@ while True:
             score = newscore
             sendmessage("Score", score)
 
+        # Be a good citizen and wait 15 seconds before getting the next score update
         sleep(15)
 
     except KeyboardInterrupt:
