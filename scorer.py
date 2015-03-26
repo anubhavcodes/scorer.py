@@ -1,6 +1,8 @@
 from __future__ import print_function
 from sys import version_info
 import requests
+import json
+import re
 from bs4 import BeautifulSoup
 if version_info.major is 2:
     import pynotify
@@ -34,9 +36,27 @@ def popUpMessage(title, message):
         logging.debug("Sending notification: title:{}, message:{}".format(title,message))
         notify2.Notification(title, message, "dialog-information").show()
 
+def getLastestScore(parsingJson):
+    firstTeamName = parsingJson['other_scores']['international'][0]['team1_name'].strip()
+    firstTeamScore = parsingJson['other_scores']['international'][0]['team1_desc'].replace('&nbsp;ov',' overs').strip()
+    secondTeamName = parsingJson['other_scores']['international'][0]['team2_name'].strip()
+    secondTeamScore = parsingJson['other_scores']['international'][0]['team2_desc'].replace('&nbsp;ov',' overs').strip()
+    matchSummary = parsingJson['match']['current_summary'].strip()
+        
+    latestScore = str(firstTeamName) + ' - ' + str(firstTeamScore) +  '\n' + str(secondTeamName) + ' - ' + str(secondTeamScore)
+
+    onCrease = re.sub(r'.*ov,','', str(matchSummary))
+
+    toDisplay = latestScore + '\n'+ 'On the crease -> '+ onCrease
+
+    logging.info("Score found is {}".format(toDisplay))
+    return toDisplay
+    
 
 
-liveUrl = "http://static.cricinfo.com/rss/livescores.xml"
+
+liveXMLUrl = "http://static.cricinfo.com/rss/livescores.xml"
+liveJSONUrl = "http://www.espncricinfo.com/netstorage/656493.json"
 matchChoice = 0
 score = ""
 didInterrupt = False
@@ -46,12 +66,15 @@ print("Fetching matches..")
 while True:
     try:
         logging.info("Sending requests")
-        dataFromUrl = requests.get(liveUrl)
-        while dataFromUrl.status_code is not 200:
+        dataFromXMLUrl = requests.get(liveXMLUrl)
+        dataFromJSONUrl = requests.get(liveJSONUrl)
+        while dataFromXMLUrl.status_code is not 200:
             logging.debug("Request failed: trying again")
             sleep(2)
-            dataFromUrl = requests.get(liveUrl)
-        data = BeautifulSoup(dataFromUrl.text).find_all("description")
+            dataFromXMLUrl = requests.get(liveXMLUrl)
+
+        data = BeautifulSoup(dataFromXMLUrl.text).find_all("description")
+        parsingJson = json.loads(dataFromJSONUrl.text)
         if not matchChoice:
             print("Matches available:")
             for index, game in enumerate(data[1:], 1):
@@ -62,13 +85,11 @@ while True:
                     break
                 matchChoice = int(input("Invalid Choice. Enter your choice: "))
             didInterrupt=False
-        newscore = data[matchChoice].text
-        logging.info("Score found is {}".format(newscore))
-        if newscore != score:
-            logging.info("This is the most recent score, send me a notification")
-            score = newscore
-            popUpMessage("Score", score)
+        updatedScore = getLastestScore(parsingJson)
+        popUpMessage("Score", updatedScore)
         sleep(15)
+
+
 
     except KeyboardInterrupt:
         if didInterrupt:
