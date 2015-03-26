@@ -1,3 +1,4 @@
+from __future__ import print_function
 from sys import version_info
 import requests
 from bs4 import BeautifulSoup
@@ -49,7 +50,7 @@ while True:
         if not match:
             print("Matches available:")
             for counter, game in enumerate(data[1:], 1):
-                print(counter, str(game.text))
+                print(counter, ".", str(game.text))
             match = int(input("Enter your choice: "))
             while True:
                 if match in range(1, counter):
