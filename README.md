@@ -1,6 +1,8 @@
 # scorer.py
 A simple python script to fetch cricket scores and send notifications.
 
+**NOTE:** Works on Linux only. For OS X version, check this [project](https://github.com/avinassh/score-notify).
+
 ## Features ##
 * Allows you to choose from concurrent matches
 * Change choice by Ctrl+C
