@@ -27,6 +27,8 @@ python scorer.py
 * Use twitter api to get the latest tweets based on match hastags and use it to feed the notifications when there is no score change.
 * Use a configuration file
 * Use arrows to navigate the command line interface. 
+* Add documentation
+* Add an option for proxy server host and port
 That's all I could think for now.
 
 **NOTE:** Works on Linux only. For OS X version, check this [project](https://github.com/avinassh/score-notify).
