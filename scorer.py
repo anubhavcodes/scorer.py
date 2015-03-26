@@ -49,7 +49,7 @@ while True:
         if not match:
             print("Matches available:")
             for counter, game in enumerate(data[1:], 1):
-                print(counter, game.text)
+                print(counter, str(game.text))
             match = int(input("Enter your choice: "))
             while True:
                 if match in range(1, counter):
