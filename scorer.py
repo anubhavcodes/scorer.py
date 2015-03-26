@@ -40,6 +40,9 @@ liveUrl = "http://static.cricinfo.com/rss/livescores.xml"
 matchChoice = 0
 score = ""
 didInterrupt = False
+proxies = {
+  "http": "http://username:password@proxy.host:port",
+}
 
 
 print("Fetching matches..")
@@ -50,7 +53,10 @@ while True:
         while dataFromUrl.status_code is not 200:
             logging.debug("Request failed: trying again")
             sleep(2)
-            dataFromUrl = requests.get(liveUrl)
+            if dataFromUrl.status_code == 407:
+                dataFromUrl = requests.get(liveUrl, proxies=proxies)
+            else:    
+                dataFromUrl = requests.get(liveUrl)
         data = BeautifulSoup(dataFromUrl.text).find_all("description")
         if not matchChoice:
             print("Matches available:")
