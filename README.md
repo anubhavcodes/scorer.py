@@ -29,6 +29,7 @@ python scorer.py
 * Use arrows to navigate the command line interface. 
 * Add documentation
 * Add an option for proxy server host and port
+* Add unit tests
 That's all I could think for now.
 
 **NOTE:** Works on Linux only. For OS X version, check this [project](https://github.com/avinassh/score-notify).
