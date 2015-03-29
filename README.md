@@ -1,6 +1,15 @@
 # scorer.py
 A simple python script to fetch cricket scores and send notifications.
 
+## NOTE ##
+* This project is going massive changes.
+Much of the code in the master branch is broken because of a lot of hardcoding.
+The code is being fixed in the structureCode branch.
+* If you want to run the code, checkout the structureCode branch and the do the
+following 
+cd scorer.py/scorer/
+python app.py
+
 ![alt tag](http://i.imgur.com/LiMUo5V.png)
 
 ## Features ##
@@ -16,7 +25,7 @@ A simple python script to fetch cricket scores and send notifications.
 * Internet connection
 
 ## Usage ##
-python scorer.py
+python scorer.py (If you checked out the master branch)
 
 ## Todo ##
 * Use argparse to add some command line arguments like debug etc.
