@@ -81,7 +81,7 @@ while True:
                 print(index, ".", str(game.text))
             matchChoice = int(input("Enter your choice: "))
             while True:
-                if matchChoice in range(1, index):
+                if matchChoice in range(1, index + 1):
                     break
                 matchChoice = int(input("Invalid Choice. Enter your choice: "))
             didInterrupt=False
