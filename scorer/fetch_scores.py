@@ -35,7 +35,7 @@ def getLastestScore(jsonurl,playingTeams):
     logging.info("Found wickets: {}".format(wickets))
     titleToDisplay = battingTeamName + " vs " + bowlingTeamName
     scoreToDisplay = "score: " + runs + "/" + wickets + "\n" + "overs: " + overs 
-    logging.debug("The display string is: {}".format(toDisplay))
+    logging.debug("The display string is: {} {} ".format(titleToDisplay,scoreToDisplay))
     return (titleToDisplay,scoreToDisplay)
 
 def getMatchID(matchChoice, xml):
