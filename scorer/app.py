@@ -26,11 +26,14 @@ while True:
                 break
             matchChoice = int(input("Invalid Choid. Enter your choice: "))
         didInterrupt = False
-        notify.popUpMessage("Score", matches[matchChoice-1])
-        # logging.info("Getting the latest score for the selected match")
-        # score = fs.getLastestScore(fs.getMatchID(int(matchChoice-1), xml))
-        # logging.debug("Sending notification for: title:{} score:{}".format(matches[matchChoice-1], score))
-        # notify.popUpMessage(matches[matchChoice-1], score)
+        #notify.popUpMessage("Score", matches[matchChoice-1])
+        logging.info("Getting the latest score for the selected match")
+        matchID = fs.getMatchID(int(matchChoice-1), xml)
+        jsonurl = fs.getJsonURL(matchID)
+        playingTeams = fs.getPlayingTeamNames(jsonurl)
+        title,score = fs.getLastestScore(jsonurl,playingTeams)
+        logging.debug("Sending notification for: title:{} score:{}".format(matches[matchChoice-1], score))
+        notify.popUpMessage(matches[matchChoice-1], score)
         sleep(15)
     except KeyboardInterrupt:
         if didInterrupt:
