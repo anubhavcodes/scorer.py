@@ -21,12 +21,11 @@ def getLastestScore(matchId):
     logging.debug("The display string is: {}".format(toDisplay))
     return toDisplay
 
-def getMatchID(matchId, xml):
+def getMatchID(matchChoice, xml):
     logging.debug("Entry point for getMatchID")
-    url = xml[matchId].guid.text
-    logging.debug("strriped url from xml: {}".format(url))
-    isDigit = re.search("\d", url)
-    matchId = url[isDigit.start():url.find(".html")]
+    guid = xml[matchChoice].guid.text
+    logging.debug("strriped url from xml: {}".format(guid))
+    matchId = re.search(r'\d+',guid).group()
     logging.info("Found matchId: {}".format(matchId))
     return matchId
 
