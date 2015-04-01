@@ -1,41 +1,54 @@
 from __future__ import print_function
+from system import exitApp
 import fetch_scores as fs
 import notification as notify
 import logging
 from time import sleep
 
-matchChoice = 0
-didInterrupt = False
 
 logging.basicConfig(level=logging.DEBUG)
+NO_LIVE_MATCHES = "No Match in progress"
+SLEEP_INTERVAL = 15 
 
 while True:
+    logging.debug("Getting the xml and matches list")
+    xml, matches = fs.findMatchesAvailable()
+    if(matches[0]==NO_LIVE_MATCHES):
+        print("No Live matches are available now:")
+        exitApp()
+    print("The following matches are available now:")
+    for index,game in enumerate(matches, 1):
+        print (index, ".", game)
+    print (index+1, ". Quit ")
     try:
-        logging.debug("Getting the xml and matches list")
-        xmlAndMatches = fs.findMatchesAvailable()
-        matches = xmlAndMatches[1]
-        xml = xmlAndMatches[0]
-        print("The following matches are available now:")
-        for index,game in enumerate(matches, 1):
-            print (index, ".", game)
-        matchChoice = int(input("Enter your choice: "))
-        logging.info("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
-        while True:
-            logging.debug("User's choice was invalid")
+        matchChoice = raw_input("Enter your choice: ").strip()
+    except KeyboardInterrupt:
+            exitApp()   
+    while True:
+        if (matchChoice.isdigit()):
+            matchChoice = int(matchChoice)
+            if (matchChoice==index+1):
+                logging.info("User selected Quit")
+                exitApp()
             if matchChoice in range(1, index+1):
                 break
-            matchChoice = int(input("Invalid Choid. Enter your choice: "))
-        didInterrupt = False
-        notify.popUpMessage("Score", matches[matchChoice-1])
-        # logging.info("Getting the latest score for the selected match")
-        # score = fs.getLastestScore(fs.getMatchID(int(matchChoice-1), xml))
-        # logging.debug("Sending notification for: title:{} score:{}".format(matches[matchChoice-1], score))
-        # notify.popUpMessage(matches[matchChoice-1], score)
-        sleep(15)
-    except KeyboardInterrupt:
-        if didInterrupt:
-            print ("Thank you for using the scorer app")
+        logging.debug("User's choice was invalid")
+        try:
+            matchChoice = raw_input("Enter your choice: ").strip()
+        except KeyboardInterrupt:
+            exitApp()  
+    #logging moved down after validation since matches[matchChoice-1] could lead to exception 
+    #for unvalidated match choices.
+    logging.info("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
+    logging.info("Getting the latest score for the selected match")
+    matchID = fs.getMatchID(matchChoice-1, xml)
+    jsonurl = fs.getJsonURL(matchID)
+    playingTeams = fs.getPlayingTeamNames(jsonurl)
+    while True:
+        try:
+            title,score = fs.getLastestScore(jsonurl,playingTeams)
+            logging.debug("Sending notification for: title:{} score:{}".format(title, score))
+            notify.popUpMessage(title, score)
+            sleep(SLEEP_INTERVAL)
+        except KeyboardInterrupt:
             break
-        else:
-            print ("Press Ctrl+D again to quit")
-            matchChoice, didInterrupt = 0, True
