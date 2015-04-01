@@ -21,7 +21,7 @@ while True:
         print (index, ".", game)
     print (index+1, ". Quit ")
     try:
-        matchChoice = raw_input("Enter your choice: ").strip()
+        matchChoice = str(input("Enter your choice: ")).strip()
     except KeyboardInterrupt:
             exitApp()   
     while True:
