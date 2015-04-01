@@ -4,6 +4,8 @@ import re
 import json
 import logging
 
+WON_STATUS = "won"
+
 def getJsonURL(matchId):
     logging.debug("Entry Point for getJsonURL")
     jsonurl = "http://www.espncricinfo.com/ci/engine/match/" + matchId + ".json"
@@ -22,6 +24,17 @@ def getLastestScore(jsonurl,playingTeams):
     logging.debug("Url to get the latest json is: {}".format(jsonurl))
     r = requests.get(jsonurl)
     jsonData = r.json()
+    matchStatus = jsonData.get("live").get("status")
+    titleToDisplay = matchStatus
+    scoreToDisplay = ""
+    #Check if match Started
+    if(not jsonData.get("innings")):
+        logging.debug("Match not started")
+        return (titleToDisplay,scoreToDisplay)
+    #Check if match over
+    if(WON_STATUS in matchStatus):
+        logging.debug("Match over")
+        return (titleToDisplay,scoreToDisplay)
     innings = jsonData.get("live").get("innings")
     batting_team_id=innings.get("batting_team_id")
     battingTeamName = playingTeams[batting_team_id]
