@@ -3,6 +3,7 @@ from scorer.system import exitApp
 import scorer.fetch_scores as fs
 import scorer.notification as notify
 import logging
+from sys import version_info
 from time import sleep
 
 
@@ -11,12 +12,6 @@ NO_LIVE_MATCHES = "No Match in progress"
 SLEEP_INTERVAL = 15 
 
 def main():
-    try:
-        input = raw_input
-        logging.debug("Python 2 : Using raw_input()")
-    except NameError:
-        logging.debug("Python 3 : Using input()")
-        pass
     while True:
         logging.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
@@ -28,7 +23,11 @@ def main():
             print (index, ".", game)
         print (index+1, ". Quit ")
         try:
-            matchChoice = input("Enter your choice: ").strip()
+            if version_info.major == 2:
+                matchChoice = raw_input("Enter your choice: ").strip()
+            else:
+                matchChoice = input("Enter you choice: ")
+                matchChoice = str(matchChoice)
         except KeyboardInterrupt:
                 exitApp()   
         while True:
@@ -41,7 +40,11 @@ def main():
                     break
             logging.debug("User's choice was invalid")
             try:
-                matchChoice = raw_input("Enter your choice: ").strip()
+                if version_info.major == 2:
+                    matchChoice = raw_input("Enter your choice: ").strip()
+                else:
+                    matchChoice = input("Enter you choice: ")
+                    matchChoice = str(matchChoice)
             except KeyboardInterrupt:
                 exitApp()  
         #logging moved down after validation since matches[matchChoice-1] could lead to exception 
