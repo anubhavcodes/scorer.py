@@ -11,6 +11,12 @@ NO_LIVE_MATCHES = "No Match in progress"
 SLEEP_INTERVAL = 15 
 
 def main():
+    try:
+        input = raw_input
+        logging.debug("Python 2 : Using raw_input()")
+    except NameError:
+        logging.debug("Python 3 : Using input()")
+        pass
     while True:
         logging.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
@@ -22,7 +28,7 @@ def main():
             print (index, ".", game)
         print (index+1, ". Quit ")
         try:
-            matchChoice = str(input("Enter your choice: ")).strip()
+            matchChoice = input("Enter your choice: ").strip()
         except KeyboardInterrupt:
                 exitApp()   
         while True:
