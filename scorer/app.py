@@ -11,6 +11,12 @@ logging.basicConfig(level=logging.DEBUG)
 NO_LIVE_MATCHES = "No Match in progress"
 SLEEP_INTERVAL = 15 
 
+try:
+    input = raw_input
+    logging.debug("Python 2 : Using raw_input()")
+except NameError:
+    logging.debug("Python 3 : Using input()")
+    
 def main():
     while True:
         logging.debug("Getting the xml and matches list")
