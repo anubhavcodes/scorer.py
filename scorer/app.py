@@ -20,7 +20,10 @@ def main():
             print("No Live matches are available now:")
             exitApp()
         matches.append("Quit the scorer app")
-        matchChoice= getUserInput(matches)
+        try:
+            matchChoice= getUserInput(matches)
+        except KeyboardInterrupt:
+            exitApp()
         if(matchChoice == len(matches) -1 ):
             logging.info("User chose quit")
             exitApp()
