@@ -18,10 +18,7 @@ def main():
         if(matches[0]==NO_LIVE_MATCHES):
             print "No Live matches are available now:"
             exitApp()
-        print "The following matches are available now:"
-        for index,game in enumerate(matches, 1):
-            print index, ".", game
-        print index+1, ". Quit "
+        matches.append("Quit the scorer app")
         try:
             matchChoice= getUserInput(matches)
         except KeyboardInterrupt:
