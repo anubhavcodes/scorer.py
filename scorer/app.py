@@ -1,4 +1,3 @@
-from __future__ import print_function
 from scorer.system import exitApp
 import scorer.fetch_scores as fs
 import scorer.notification as notify
@@ -16,18 +15,14 @@ def main():
         logging.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
         if(matches[0]==NO_LIVE_MATCHES):
-            print("No Live matches are available now:")
+            print "No Live matches are available now:"
             exitApp()
-        print("The following matches are available now:")
+        print "The following matches are available now:"
         for index,game in enumerate(matches, 1):
-            print (index, ".", game)
-        print (index+1, ". Quit ")
+            print index, ".", game
+        print index+1, ". Quit "
         try:
-            if version_info.major == 2:
-                matchChoice = raw_input("Enter your choice: ").strip()
-            else:
-                matchChoice = input("Enter you choice: ")
-                matchChoice = str(matchChoice)
+            matchChoice = raw_input("Enter your choice: ").strip()
         except KeyboardInterrupt:
                 exitApp()   
         while True:
@@ -40,11 +35,7 @@ def main():
                     break
             logging.debug("User's choice was invalid")
             try:
-                if version_info.major == 2:
-                    matchChoice = raw_input("Enter your choice: ").strip()
-                else:
-                    matchChoice = input("Enter you choice: ")
-                    matchChoice = str(matchChoice)
+                matchChoice = raw_input("Enter your choice: ").strip()
             except KeyboardInterrupt:
                 exitApp()  
         #logging moved down after validation since matches[matchChoice-1] could lead to exception 
