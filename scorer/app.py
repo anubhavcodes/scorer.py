@@ -4,6 +4,7 @@ import scorer.notification as notify
 import logging
 from sys import version_info
 from time import sleep
+from scorer.ui import getUserInput
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -22,27 +23,15 @@ def main():
             print index, ".", game
         print index+1, ". Quit "
         try:
-            matchChoice = raw_input("Enter your choice: ").strip()
+            matchChoice= getUserInput(matches)
         except KeyboardInterrupt:
-                exitApp()   
-        while True:
-            if (matchChoice.isdigit()):
-                matchChoice = int(matchChoice)
-                if (matchChoice==index+1):
-                    logging.info("User selected Quit")
-                    exitApp()
-                if matchChoice in range(1, index+1):
-                    break
-            logging.debug("User's choice was invalid")
-            try:
-                matchChoice = raw_input("Enter your choice: ").strip()
-            except KeyboardInterrupt:
-                exitApp()  
-        #logging moved down after validation since matches[matchChoice-1] could lead to exception 
-        #for unvalidated match choices.
+            exitApp()
+        if(matchChoice == len(matches) -1 ):
+            logging.info("User chose quit")
+            exitApp()
         logging.info("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
         logging.info("Getting the latest score for the selected match")
-        matchID = fs.getMatchID(matchChoice-1, xml)
+        matchID = fs.getMatchID(matchChoice,xml)
         jsonurl = fs.getJsonURL(matchID)
         playingTeams = fs.getPlayingTeamNames(jsonurl)
         while True:
