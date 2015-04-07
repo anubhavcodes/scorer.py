@@ -18,5 +18,10 @@ setup(
           'requests',
           'beautifulsoup4',
       ],
+    entry_points={
+        'console_scripts':[
+            'scorer = scorer.app:main'
+            ]
+        },
     zip_safe = False
         )
