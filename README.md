@@ -5,18 +5,19 @@ A simple python script to fetch cricket scores and send notifications.
 
 ## Features ##
 * Allows you to choose from concurrent matches
-* Change choice by Ctrl+C
-* Quit by Ctrl+C twice
-* Shows notification only if there's a change in the score (run or wicket)
-* Should work with python2 or python3
+* Change choice by arrow keys
 
 ## Requirements ##
-* Install python dependencies using `pip install -r requirements.txt`
-* libnotify, BeautifulSoup
-* Internet connection
+* beautifulSoup4
+* requests
+* python2 only
+
+## Installation ##
+``sudo python setup.py install``
+[Make sure you are using python2]
 
 ## Usage ##
-python scorer.py
+``scorer``
 
 ## Todo ##
 * Use argparse to add some command line arguments like debug etc.
@@ -26,7 +27,6 @@ python scorer.py
 * create a command line option to run this notification system as a GUI.
 * Use twitter api to get the latest tweets based on match hastags and use it to feed the notifications when there is no score change.
 * Use a configuration file
-* Use arrows to navigate the command line interface. 
 * Add documentation
 * Add an option for proxy server host and port
 That's all I could think for now.
