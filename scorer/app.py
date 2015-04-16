@@ -9,7 +9,7 @@ from scorer.ui import getUserInput
 
 logging.basicConfig(level=logging.DEBUG)
 NO_LIVE_MATCHES = "No Match in progress"
-SLEEP_INTERVAL = 15 
+SLEEP_INTERVAL = 60 
 
 def main():
     while True:
