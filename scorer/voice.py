@@ -1,6 +1,6 @@
 import pyttsx
 
-def voice(message,_rate,_volume):
+def voice(message,_rate=-50,_volume=0):
     engine = pyttsx.init()
     rate = engine.getProperty('rate')
     engine.setProperty('rate', rate+_rate)
