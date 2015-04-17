@@ -1,15 +1,18 @@
 from sys import version_info
+from scorer.system import exitApp
 import logging
 import pynotify 
 
+logger = logging.getLogger('scorer.notification')
+
 def popUpMessage(title, message):
-    logging.debug("Initializing pynotify")
+    logger.info("Initializing pynotify")
     try:
         pynotify.init("Scorer")
         pynotify.Notification(title, message, "dialog-information").show()
     except Exception as e:
-        logging.debug("Error initializing pynotify")
-        logging.debug(e)
-        logging.info("Unable to initialize pynotify: Connection Refused")
-        logging.info("Quitting the app")
-        exit()
+        logger.error("Error initializing pynotify")
+        logger.debug(e)
+        logger.info("Unable to initialize pynotify: Connection Refused")
+        logger.info("Quitting the app")
+        exitApp()
