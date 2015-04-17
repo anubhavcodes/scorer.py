@@ -4,7 +4,7 @@ import re
 import json
 import logging
 
-WON_STATUS = "won"
+WON_STATUS = "won by"
 
 def getJsonURL(matchId):
     logging.debug("Entry Point for getJsonURL")
@@ -28,9 +28,10 @@ def getLastestScore(jsonurl,playingTeams):
     titleToDisplay = matchStatus
     scoreToDisplay = ""
     #Check if match Started
-    if(not jsonData.get("innings")):
+    if(not jsonData.get("live").get("innings")):
         logging.debug("Match not started")
         return (titleToDisplay,scoreToDisplay)
+
     #Check if match over
     if(WON_STATUS in matchStatus):
         logging.debug("Match over")
@@ -46,8 +47,13 @@ def getLastestScore(jsonurl,playingTeams):
     logging.info("Found Runs: {}".format(runs))
     wickets = innings.get("wickets")
     logging.info("Found wickets: {}".format(wickets))
+    try:
+        requiredRuns = jsonData.get("comms")[1].get("required_string")
+    except IndexError:
+        requiredRuns = ""
+    logging.debug("The requiredRuns string is: {}".format(requiredRuns))
     titleToDisplay = battingTeamName + " vs " + bowlingTeamName
-    scoreToDisplay = "score: " + runs + "/" + wickets + "\n" + "overs: " + overs 
+    scoreToDisplay = "score: " + runs + "/" + wickets + "\n" + "overs: " + overs + "\n" + requiredRuns
     logging.debug("The display string is: {} {} ".format(titleToDisplay,scoreToDisplay))
     return (titleToDisplay,scoreToDisplay)
 
