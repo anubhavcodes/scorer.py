@@ -5,6 +5,7 @@ import logging
 from sys import version_info
 from time import sleep
 from scorer.ui import getUserInput
+from scoreparser import ScoreParser
 
 
 logger = logging.getLogger("scorer.app")
@@ -41,10 +42,10 @@ def main():
         logger.debug("Getting the latest score for the selected match")
         matchID = fs.getMatchID(matchChoice,xml)
         jsonurl = fs.getJsonURL(matchID)
-        playingTeams = fs.getPlayingTeamNames(jsonurl)
+        scoreParser = ScoreParser(jsonurl)
         while True:
             try:
-                title,score = fs.getLastestScore(jsonurl,playingTeams)
+                title,score = fs.getLastestScore(scoreParser)
                 logger.debug("Sending notification for: title:{} score:{}".format(title, score))
                 notify.popUpMessage(title, score)
                 sleep(SLEEP_INTERVAL)

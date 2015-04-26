@@ -6,56 +6,36 @@ import logging
 
 logger = logging.getLogger('scorer.fetch_scores')
 
-WON_STATUS = "won by"
-
 def getJsonURL(matchId):
     logger.info("Entry Point for getJsonURL")
     jsonurl = "http://www.espncricinfo.com/ci/engine/match/" + matchId + ".json"
     logger.debug("Url to get the latest json is: {}".format(jsonurl))
     return jsonurl
 
-def getPlayingTeamNames(jsonurl):
-    #Get the playing team names and store it in teamId:teamName dict format
-    logger.info("Url to get the json from {}".format(jsonurl))
-    r = requests.get(jsonurl)
-    jsonData = r.json()
-    playingTeams={ team.get("team_id"):team.get("team_name") for team in jsonData.get("team") }
-    logging.debug("playingTeams: {}".format(playingTeams))
-    return playingTeams
-
-def getLastestScore(jsonurl,playingTeams):
+def getLastestScore(scoreParser):
     logger.info("Entry Point for getLastestScore")
-    logger.debug("Url to get the latest json is: {}".format(jsonurl))
-    r = requests.get(jsonurl)
-    jsonData = r.json()
-    matchStatus = jsonData.get("live").get("status")
+    scoreParser.refresh()
+    matchStatus = scoreParser.getMatchStatus()
     logger.info("matchStatus: {}".format(matchStatus))
     titleToDisplay = matchStatus
     scoreToDisplay = ""
     #Check if match Started
-    if(not jsonData.get("live").get("innings")):
+    if scoreParser.isMatchNotStarted() :
         logger.info("Match not started")
         return (titleToDisplay,scoreToDisplay)
-
     #Check if match over
-    if(WON_STATUS in matchStatus):
+    if scoreParser.isMatchOver():
         logger.info("Match over")
         return (titleToDisplay,scoreToDisplay)
-    innings = jsonData.get("live").get("innings")
-    batting_team_id=innings.get("batting_team_id")
-    battingTeamName = playingTeams[batting_team_id]
-    bowling_team_id=innings.get("bowling_team_id")
-    bowlingTeamName = playingTeams.get(bowling_team_id)
-    overs = innings.get("overs")
+    battingTeamName = scoreParser.getBattingTeamName()
+    bowlingTeamName = scoreParser.getBowlingTeamName()
+    overs = scoreParser.getOvers()
     logger.debug("Found Overs: {}".format(overs))
-    runs=innings.get("runs")
+    runs = scoreParser.getRuns()
     logger.debug("Found Runs: {}".format(runs))
-    wickets = innings.get("wickets")
+    wickets = scoreParser.getRuns()
     logger.debug("Found wickets: {}".format(wickets))
-    try:
-        requiredRuns = jsonData.get("comms")[1].get("required_string")
-    except IndexError:
-        requiredRuns = ""
+    requiredRuns = scoreParser.getRequiredRuns()
     logger.debug("The requiredRuns string is: {}".format(requiredRuns))
     titleToDisplay = battingTeamName + " vs " + bowlingTeamName
     scoreToDisplay = "score: " + runs + "/" + wickets + "\n" + "overs: " + overs + "\n" + requiredRuns
