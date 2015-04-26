@@ -33,7 +33,7 @@ def getLastestScore(scoreParser):
     logger.debug("Found Overs: {}".format(overs))
     runs = scoreParser.getRuns()
     logger.debug("Found Runs: {}".format(runs))
-    wickets = scoreParser.getRuns()
+    wickets = scoreParser.getWickets()
     logger.debug("Found wickets: {}".format(wickets))
     requiredRuns = scoreParser.getRequiredRuns()
     logger.debug("The requiredRuns string is: {}".format(requiredRuns))
