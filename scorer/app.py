@@ -5,15 +5,27 @@ import logging
 from sys import version_info
 from time import sleep
 from scorer.ui import getUserInput
+from scoreparser import ScoreParser
 
 
-logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger("scorer.app")
+logger.setLevel(logging.DEBUG)
+fh = logging.FileHandler("scorer.log")
+fh.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.ERROR)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+logger.addHandler(fh)
+logger.addHandler(ch)
+
 NO_LIVE_MATCHES = "No Match in progress"
 SLEEP_INTERVAL = 60 
 
 def main():
     while True:
-        logging.debug("Getting the xml and matches list")
+        logger.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
         if(matches[0]==NO_LIVE_MATCHES):
             print "No Live matches are available now:"
@@ -24,17 +36,17 @@ def main():
         except KeyboardInterrupt:
             exitApp()
         if(matchChoice == len(matches) -1 ):
-            logging.info("User chose quit")
+            logger.debug("User chose quit")
             exitApp()
-        logging.info("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
-        logging.info("Getting the latest score for the selected match")
+        logger.debug("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
+        logger.debug("Getting the latest score for the selected match")
         matchID = fs.getMatchID(matchChoice,xml)
         jsonurl = fs.getJsonURL(matchID)
-        playingTeams = fs.getPlayingTeamNames(jsonurl)
+        scoreParser = ScoreParser(jsonurl)
         while True:
             try:
-                title,score = fs.getLastestScore(jsonurl,playingTeams)
-                logging.debug("Sending notification for: title:{} score:{}".format(title, score))
+                title,score = fs.getLastestScore(scoreParser)
+                logger.debug("Sending notification for: title:{} score:{}".format(title, score))
                 notify.popUpMessage(title, score)
                 sleep(SLEEP_INTERVAL)
             except KeyboardInterrupt:
