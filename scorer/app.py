@@ -5,20 +5,9 @@ import logging
 from sys import version_info
 from time import sleep
 from scorer.ui import getUserInput
-from scoreparser import ScoreParser
+from scorer.scoreparser import ScoreParser
 
-
-logger = logging.getLogger("scorer.app")
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler("scorer.log")
-fh.setLevel(logging.DEBUG)
-ch = logging.StreamHandler()
-ch.setLevel(logging.ERROR)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
-logger.addHandler(fh)
-logger.addHandler(ch)
+logger = logging.getLogger(__name__)
 
 NO_LIVE_MATCHES = "No Match in progress"
 SLEEP_INTERVAL = 60 
@@ -38,8 +27,7 @@ def main():
         if(matchChoice == len(matches) -1 ):
             logger.debug("User chose quit")
             exitApp()
-        logger.debug("User's choice: {} {}".format(matchChoice, matches[matchChoice-1]))
-        logger.debug("Getting the latest score for the selected match")
+        logger.debug("User's choice: {} {}".format(matchChoice, matches[matchChoice]))
         matchID = fs.getMatchID(matchChoice,xml)
         jsonurl = fs.getJsonURL(matchID)
         scoreParser = ScoreParser(jsonurl)

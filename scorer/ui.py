@@ -1,6 +1,7 @@
 from curses import wrapper
 import curses
 import logging
+from scorer.customlog import log
 
 logger = logging.getLogger('scorer.ui')
 
@@ -29,13 +30,17 @@ def main(stdscr,matches):
             logging.info("Up key pressed")
             if (selected!=0):
                 selected -=1
-                printGames(stdscr,matches,selected)
+            else :
+                selected = len(matches) - 1
+            printGames(stdscr,matches,selected)
         elif event == curses.KEY_DOWN:
             logging.info("Down key pressed")
             if (selected!= len(matches)-1):
                 selected +=1
-                printGames(stdscr,matches,selected)
-        
+            else:
+                selected = 0
+            printGames(stdscr,matches,selected)
+@log()        
 def getUserInput(matches):
     selected = wrapper(main,matches)
     return selected
