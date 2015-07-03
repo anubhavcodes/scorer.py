@@ -7,13 +7,11 @@ import logging
 logger = logging.getLogger('scorer.fetch_scores')
 
 def getJsonURL(matchId):
-    logger.info("Entry Point for getJsonURL")
     jsonurl = "http://www.espncricinfo.com/ci/engine/match/" + matchId + ".json"
     logger.debug("Url to get the latest json is: {}".format(jsonurl))
     return jsonurl
 
 def getLastestScore(scoreParser):
-    logger.info("Entry Point for getLastestScore")
     scoreParser.refresh()
     matchStatus = scoreParser.getMatchStatus()
     logger.info("matchStatus: {}".format(matchStatus))

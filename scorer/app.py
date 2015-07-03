@@ -1,19 +1,18 @@
 from scorer.system import exitApp
 import scorer.fetch_scores as fs
 import scorer.notification as notify
+from scorer.ui import getUserInput
+from scorer.scoreparser import ScoreParser
 import logging
 from sys import version_info
 from time import sleep
-from scorer.ui import getUserInput
-from scoreparser import ScoreParser
 
-
-logger = logging.getLogger("scorer.app")
+logger = logging.getLogger("scorer")
 logger.setLevel(logging.DEBUG)
 fh = logging.FileHandler("scorer.log")
-fh.setLevel(logging.DEBUG)
+fh.setLevel(logging.CRITICAL)
 ch = logging.StreamHandler()
-ch.setLevel(logging.ERROR)
+ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
@@ -29,6 +28,7 @@ def main():
         xml, matches = fs.findMatchesAvailable()
         if(matches[0]==NO_LIVE_MATCHES):
             print "No Live matches are available now:"
+            logger.critical('No live matches are available')
             exitApp()
         matches.append("Quit the scorer app")
         try:
@@ -50,6 +50,7 @@ def main():
                 notify.popUpMessage(title, score)
                 sleep(SLEEP_INTERVAL)
             except KeyboardInterrupt:
+                logger.critical('Keyboard interrupted by user')
                 break
 
 if __name__ == '__main__':
