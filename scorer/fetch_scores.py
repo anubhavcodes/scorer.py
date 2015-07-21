@@ -4,6 +4,8 @@ import re
 import json
 import logging
 
+
+
 logger = logging.getLogger('scorer.fetch_scores')
 
 WON_STATUS = "won by"
@@ -18,10 +20,14 @@ def getPlayingTeamNames(jsonurl):
     #Get the playing team names and store it in teamId:teamName dict format
     logger.info("Url to get the json from {}".format(jsonurl))
     r = requests.get(jsonurl)
-    jsonData = r.json()
-    playingTeams={ team.get("team_id"):team.get("team_name") for team in jsonData.get("team") }
-    logging.debug("playingTeams: {}".format(playingTeams))
-    return playingTeams
+    if(r.status_code == 200):
+        jsonData = r.json()
+        playingTeams={ team.get("team_id"):team.get("team_name") for team in jsonData.get("team") }
+
+        logging.debug("Status Code is 200 OK")
+        logging.debug("playingTeams: {}".format(playingTeams))
+
+        return playingTeams
 
 def getLastestScore(jsonurl,playingTeams):
     logger.info("Entry Point for getLastestScore")
@@ -73,7 +79,9 @@ def getMatchID(matchChoice, xml):
 def findMatchesAvailable(url="http://static.cricinfo.com/rss/livescores.xml"):
     logger.info("Entry point for findMatchesAvailable")
     r = requests.get(url)
-    soup = BeautifulSoup(r.text)
-    xml = soup.find_all("item")
-    matches = map( lambda item : re.sub(r'\s+'," ",re.sub('[^A-Za-z ]+', '', item.title.text)), xml)
-    return (xml, matches)
+    if(r.status_code == 200):
+        logging.debug("Status Code is 200 OK")
+        soup = BeautifulSoup(r.text)
+        xml = soup.find_all("item")
+        matches = map( lambda item : re.sub(r'\s+'," ",re.sub('[^A-Za-z ]+', '', item.title.text)), xml)
+        return (xml, matches)
