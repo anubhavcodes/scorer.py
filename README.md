@@ -25,7 +25,7 @@ A simple python script to fetch cricket scores and send notifications.
 * Use telegram api to make something similar to Natasha on hike.
 * Use the matchid from current url and use the cricinfo api to get other notification like overs, batsmen playing, and other such stats when there is no change in the score.
 * create a command line option to run this notification system as a GUI.
-* Use twitter api to get the latest tweets based on match hastags and use it to feed the notifications when there is no score change.
+* Use twitter api to get the latest tweets based on match hashtags and use it to feed the notifications when there is no score change.
 * Use a configuration file
 * Add documentation
 * Add an option for proxy server host and port
