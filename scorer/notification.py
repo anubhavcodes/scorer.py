@@ -1,9 +1,10 @@
 from sys import version_info
 from scorer.system import exitApp
 import logging
-import pynotify 
+import pynotify
 
 logger = logging.getLogger('scorer.notification')
+
 
 def popUpMessage(title, message):
     logger.info("Initializing pynotify")
