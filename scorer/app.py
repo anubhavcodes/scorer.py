@@ -1,6 +1,7 @@
 from scorer.system import exitApp
 import scorer.fetch_scores as fs
 import scorer.notification as notify
+import scorer.voice
 import logging
 from sys import version_info
 from time import sleep
@@ -51,6 +52,7 @@ def main():
                 logger.debug("Sending notification for: title:{} score:\
                     {}".format(title, score))
                 notify.popUpMessage(title, score)
+                voice.voice(score)
                 sleep(SLEEP_INTERVAL)
             except KeyboardInterrupt:
                 break
