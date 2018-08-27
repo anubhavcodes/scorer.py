@@ -1,8 +1,8 @@
+import logging
+import re
+
 import requests
 from bs4 import BeautifulSoup
-import re
-import json
-import logging
 
 logger = logging.getLogger('scorer.fetch_scores')
 
@@ -73,7 +73,7 @@ def getLastestScore(jsonurl, playingTeams):
 def getMatchID(matchChoice, xml):
     logger.info("Entry point for getMatchID")
     guid = xml[matchChoice].guid.text
-    logger.debug("strriped url from xml: {}".format(guid))
+    logger.debug("striped url from xml: {}".format(guid))
     matchId = re.search(r'\d+', guid).group()
     logger.debug("Found matchId: {}".format(matchId))
     return matchId
