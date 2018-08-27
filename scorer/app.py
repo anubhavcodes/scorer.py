@@ -1,11 +1,10 @@
-from scorer.system import exitApp
+import logging
+from time import sleep
+
 import scorer.fetch_scores as fs
 import scorer.notification as notify
-import logging
-from sys import version_info
-from time import sleep
+from scorer.system import exitApp
 from scorer.ui import getUserInput
-
 
 logger = logging.getLogger("scorer.app")
 logger.setLevel(logging.DEBUG)
@@ -28,7 +27,7 @@ def main():
     while True:
         logger.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
-        if(matches[0] == NO_LIVE_MATCHES):
+        if matches[0] == NO_LIVE_MATCHES:
             print "No Live matches are available now:"
             exitApp()
         matches.append("Quit the scorer app")
@@ -36,11 +35,11 @@ def main():
             matchChoice = getUserInput(matches)
         except KeyboardInterrupt:
             exitApp()
-        if(matchChoice == len(matches) - 1):
+        if matchChoice == len(matches) - 1:
             logger.debug("User chose quit")
             exitApp()
         logger.debug("User's choice: {} {}".format(matchChoice,
-                                                   matches[matchChoice-1]))
+                                                   matches[matchChoice - 1]))
         logger.debug("Getting the latest score for the selected match")
         matchID = fs.getMatchID(matchChoice, xml)
         jsonurl = fs.getJsonURL(matchID)
@@ -54,6 +53,7 @@ def main():
                 sleep(SLEEP_INTERVAL)
             except KeyboardInterrupt:
                 break
+
 
 if __name__ == '__main__':
     main()

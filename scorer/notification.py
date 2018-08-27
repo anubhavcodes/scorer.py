@@ -1,7 +1,8 @@
-from sys import version_info
-from scorer.system import exitApp
 import logging
+
 import pynotify
+
+from scorer.system import exitApp
 
 logger = logging.getLogger('scorer.notification')
 

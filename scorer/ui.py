@@ -10,7 +10,7 @@ def printGames(stdscr, matches, selected):
     stdscr.addstr(0, 0, "The Following games \
         are available Right now\n", curses.color_pair(1))
     for index, game in enumerate(matches):
-        if(index != selected):
+        if index != selected:
             stdscr.addstr(index+1, 10, game, curses.color_pair(0))
         else:
             stdscr.addstr(index+1, 10, game, curses.color_pair(2))
@@ -30,12 +30,12 @@ def main(stdscr, matches):
             return selected
         elif event == curses.KEY_UP:
             logging.info("Up key pressed")
-            if (selected != 0):
+            if selected != 0:
                 selected -= 1
                 printGames(stdscr,  matches,  selected)
         elif event == curses.KEY_DOWN:
             logging.info("Down key pressed")
-            if (selected != len(matches) - 1):
+            if selected != len(matches) - 1:
                 selected += 1
                 printGames(stdscr, matches,  selected)
 
