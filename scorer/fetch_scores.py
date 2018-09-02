@@ -10,15 +10,25 @@ WON_STATUS = "won by"
 
 
 def getJsonURL(matchId):
+    """
+    Return the json url for the particular match.
+    :param matchId: The uid of the match.
+    :type matchId: `str`.
+    :return: The url of the particular match.
+    """
     logger.info("Entry Point for getJsonURL")
-    jsonurl = "http://www.espncricinfo.com/ci/engine/match/\
-    " + matchId + ".json"
+    jsonurl = "http://www.espncricinfo.com/ci/engine/match/" + matchId + ".json"
     logger.debug("Url to get the latest json is: {}".format(jsonurl))
     return jsonurl
 
 
 def getPlayingTeamNames(jsonurl):
-    # Get the playing team names and store it in teamId:teamName dict format
+    """
+    Get the names of the teams playing the matches.
+    :param jsonurl: url for the json.
+    :type jsonurl: `str`
+    :return: teams playing
+    """
     logger.info("Url to get the json from {}".format(jsonurl))
     r = requests.get(jsonurl)
     jsonData = r.json()
@@ -71,6 +81,14 @@ def getLastestScore(jsonurl, playingTeams):
 
 
 def getMatchID(matchChoice, xml):
+    """
+    Get the id of the match.
+    :param matchChoice: the choice of the match
+    :type matchChoice: `int`.
+    :param xml: xml data.
+    :type xml: `str`.
+    :return: the match id of the match
+    """
     logger.info("Entry point for getMatchID")
     guid = xml[matchChoice].guid.text
     logger.debug("striped url from xml: {}".format(guid))
@@ -80,6 +98,12 @@ def getMatchID(matchChoice, xml):
 
 
 def findMatchesAvailable(url="http://static.cricinfo.com/rss/livescores.xml"):
+    """
+    Find all the matches available for the day.
+    :param url: url for the matches for the day.
+    :param url: `str`
+    :return: a tuple of xml and matches.
+    """
     logger.info("Entry point for findMatchesAvailable")
     r = requests.get(url)
     soup = BeautifulSoup(r.text)
