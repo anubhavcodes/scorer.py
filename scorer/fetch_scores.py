@@ -3,10 +3,11 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from scorer.system import exitApp
+from scorer import config_reader
 
 logger = logger.get_logger('scorer.fetch_scores')
 
-WON_STATUS = "won by"
+WON_STATUS = config_reader.WON_STATUS
 
 
 def getJsonURL(matchId):

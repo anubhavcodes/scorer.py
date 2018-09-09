@@ -4,11 +4,12 @@ import scorer.fetch_scores as fs
 import scorer.notification as notify
 from scorer.system import exitApp
 from scorer.ui import getUserInput
+from scorer import config_reader
 
 logger = logger.get_logger('cricket-scores-api')
 
-NO_LIVE_MATCHES = "No Match in progress"
-SLEEP_INTERVAL = 60
+NO_LIVE_MATCHES = config_reader.NO_LIVE_MATCHES
+SLEEP_INTERVAL = config_reader.SLEEP_INTERVAL
 
 
 def main():

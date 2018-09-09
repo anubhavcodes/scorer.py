@@ -2,7 +2,7 @@ from curses import wrapper
 import curses
 import scorer.logger as logger
 
-logger = logger.getLogger('scorer.ui')
+logger = logger.get_logger('scorer.ui')
 
 
 def printGames(stdscr, matches, selected):
