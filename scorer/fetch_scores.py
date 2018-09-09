@@ -7,7 +7,7 @@ from scorer import config_reader
 
 logger = logger.get_logger('scorer.fetch_scores')
 
-WON_STATUS = config_reader.WON_STATUS
+won_status = config_reader.WON_STATUS
 
 
 def getJsonURL(matchId):
@@ -64,7 +64,7 @@ def getLastestScore(jsonurl, playingTeams):
         return (titleToDisplay, scoreToDisplay)
 
     # Check if match over
-    if (WON_STATUS in matchStatus):
+    if (won_status in matchStatus):
         logger.info("Match over")
         return (titleToDisplay, scoreToDisplay)
     innings = jsonData.get("live").get("innings")

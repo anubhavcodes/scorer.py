@@ -8,15 +8,15 @@ from scorer import config_reader
 
 logger = logger.get_logger('cricket-scores-api')
 
-NO_LIVE_MATCHES = config_reader.NO_LIVE_MATCHES
-SLEEP_INTERVAL = config_reader.SLEEP_INTERVAL
+no_live_matches = config_reader.NO_LIVE_MATCHES
+sleep_interval = config_reader.SLEEP_INTERVAL
 
 
 def main():
     while True:
         logger.debug("Getting the xml and matches list")
         xml, matches = fs.findMatchesAvailable()
-        if matches[0] == NO_LIVE_MATCHES:
+        if matches[0] == no_live_matches:
             print "No Live matches are available now:"
             exitApp()
         matches.append("Quit the scorer app")
@@ -39,7 +39,7 @@ def main():
                 logger.debug("Sending notification for: title:{} score:\
                     {}".format(title, score))
                 notify.popUpMessage(title, score)
-                sleep(SLEEP_INTERVAL)
+                sleep(sleep_interval)
             except KeyboardInterrupt:
                 break
 
