@@ -125,5 +125,5 @@ def findMatchesAvailable(url="http://static.cricinfo.com/rss/livescores.xml"):
     soup = BeautifulSoup(r.text)
     xml = soup.find_all("item")
     matches = map(lambda item: re.sub(r'\s+', " ", re.sub('\
-    [^A-Za-z ]+', '', item.title.text)), xml)
+            [^A-Za-z ]+', '', item.title.text)), xml)
     return (xml, matches)
