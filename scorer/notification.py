@@ -1,6 +1,7 @@
 import scorer.logger as logger
-import pynotify
+from sys import version_info
 from scorer.system import exitApp
+import subprocess as sp
 
 logger = logger.get_logger('scorer.notification')
 
