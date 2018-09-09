@@ -1,10 +1,8 @@
-import logging
-
+import scorer.logger as logger
 import pynotify
-
 from scorer.system import exitApp
 
-logger = logging.getLogger('scorer.notification')
+logger = logger.getLogger('scorer.notification')
 
 
 def popUpMessage(title, message):
