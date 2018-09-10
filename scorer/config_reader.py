@@ -15,7 +15,7 @@ def read_json(file_path):
         exitApp()
 
 
-config_data = read_json("../scorer/config.json")
+config_data = read_json("config.json")
 NO_LIVE_MATCHES = config_data["NO_LIVE_MATCHES"]
 SLEEP_INTERVAL = config_data["SLEEP_INTERVAL"]
 WON_STATUS = config_data["WON_STATUS"]
