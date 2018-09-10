@@ -34,13 +34,13 @@ def getPlayingTeamNames(jsonurl):
     try:
         r = requests.get(jsonurl)
     except:
-        logging.error("not able to reach the site to get the match info!!")
+        logger.error("not able to reach the site to get the match info!!")
         exitApp()
 
     jsonData = r.json()
     playingTeams = {team.get("team_id"): team.get("team_name\
         ") for team in jsonData.get("team")}
-    logging.debug("playingTeams: {}".format(playingTeams))
+    logger.debug("playingTeams: {}".format(playingTeams))
     return playingTeams
 
 
@@ -50,7 +50,7 @@ def getLastestScore(jsonurl, playingTeams):
     try:
         r = requests.get(jsonurl)
     except:
-        logging.error("not able to reach the site to get the match info!!")
+        logger.error("not able to reach the site to get the match info!!")
         exitApp()
 
     jsonData = r.json()
@@ -119,7 +119,7 @@ def findMatchesAvailable(url="http://static.cricinfo.com/rss/livescores.xml"):
     try:
         r = requests.get(url)
     except:
-        logging.error("not able to reach the site to get the match info!!")
+        logger.error("not able to reach the site to get the match info!!")
         exitApp()
 
     soup = BeautifulSoup(r.text)
