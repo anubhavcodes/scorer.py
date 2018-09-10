@@ -11,6 +11,7 @@ A simple python script to fetch cricket scores and send notifications.
 * beautifulSoup4
 * requests
 * python2 only
+* mock
 
 ## Installation ##
 ``sudo python setup.py install``
