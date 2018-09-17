@@ -38,8 +38,7 @@ def getPlayingTeamNames(jsonurl):
         exitApp()
 
     jsonData = r.json()
-    playingTeams = {team.get("team_id"): team.get("team_name\
-        ") for team in jsonData.get("team")}
+    playingTeams = {team.get("team_id"): team.get("team_name") for team in jsonData.get("team")}
     logger.debug("playingTeams: {}".format(playingTeams))
     return playingTeams
 
