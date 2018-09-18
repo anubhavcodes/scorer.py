@@ -19,7 +19,7 @@ setup(
     install_requires=[
         'requests',
         'beautifulsoup4',
-        'pynotify'
+        'notify2'
     ],
     entry_points={
         'console_scripts': [

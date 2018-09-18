@@ -38,8 +38,7 @@ def main():
         if matchChoice == len(matches) - 1:
             logger.debug("User chose quit")
             exitApp()
-        logger.debug("User's choice: {} {}".format(matchChoice,
-                                                   matches[matchChoice - 1]))
+        logger.debug("User's choice: {} {}".format(matchChoice, matches[matchChoice]))
         logger.debug("Getting the latest score for the selected match")
         matchID = fs.getMatchID(matchChoice, xml)
         jsonurl = fs.getJsonURL(matchID)
