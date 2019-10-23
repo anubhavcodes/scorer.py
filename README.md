@@ -1,4 +1,4 @@
-# scorer.py
+## scorer.py
 A simple python script to fetch cricket scores and send notifications.
 
 ![alt tag](http://i.imgur.com/LiMUo5V.png)
